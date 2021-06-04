@@ -5,7 +5,6 @@ streamlit を使ってwebサイトを作ってみる。
 """
 
 # 必要ライブラリーのインポート
-from select import select
 from PIL import Image
 import streamlit as st
 
