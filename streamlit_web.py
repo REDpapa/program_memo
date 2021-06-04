@@ -5,44 +5,55 @@ streamlit を使ってwebサイトを作ってみる。
 """
 
 # 必要ライブラリーのインポート
+from select import select
 from PIL import Image
 import streamlit as st
 
 # 自作ファイルの読み出し
+import python
 import date_time
+
 
 # *********ここからwebサイトに表示される***********************
 
-# ***********サイドバーを表示していく!***********************
+# //////////////サイドバーを表示していく!////////////////////////////
 
-image = Image.open('Twitterアイコン.jpg')
+image = Image.open('./image/Twitterアイコン.jpg')
 # img データを表示する。caption=は画像名　use_column_width=Trueは、表示するブラウザに合わせる。
 st.sidebar.image(image, caption='REDpapaイメージ', use_column_width=True)
 
-st.sidebar.text('見たいものを選択してください')
-option_check_0 = st.sidebar.checkbox('python')
-option_check_1 = st.sidebar.checkbox('anaconda')
-option_check_2 = st.sidebar.checkbox('GitHub')
-option_check_3 = st.sidebar.checkbox('gspread')
-option_check_4 = st.sidebar.checkbox('LINE_BOT')
-option_check_5 = st.sidebar.checkbox('pipenv')
-option_check_6 = st.sidebar.checkbox('仮想環境')
-option_check_7 = st.sidebar.checkbox('pandas')
-option_check_8 = st.sidebar.checkbox('ローカル定期実行')
-option_check_9 = st.sidebar.checkbox('日付と時間')
+st.sidebar.header('見たいものを選択してください')
+
+# サイドバーに選択リストを表示する!リスト名=ファイル名になるようにする。
+sidebar_list = [
+    'python',
+    'date_time',
+    'gspread',
+    'pandas'
+]
+
+sidebar_check_list = [st.sidebar.checkbox(_) for _ in sidebar_list]
+
+# /////////////////////////////////////////////////////////////////////////
 
 # ***********メインを表示していく!***********************
 
 st.header('REDpapaのプログラムメモ')
 st.text('左のサイドバーより見たい項目をチェックしてください!')
 
-if option_check_9:
-    st.text('日付と時間を表示')
-    index_list = date_time.index_send()
-
-    option_select = st.selectbox(
-        'どれか一つを選択してください',
-        index_list
-    )
-    st.write('あなたが選んだのは', option_select)
-    st.write(date_time.text_send(option_select))
+for i, sidebar_bool in enumerate(sidebar_check_list):
+    if sidebar_bool:
+        st.header(f'{sidebar_list[i]}を表示')
+        selectbox_list = eval(f'{sidebar_list[i]}.index_send()')
+        # セレクトBOXを表示する。
+        option_select = st.selectbox(
+            'どれか一つを選択してください',
+            selectbox_list
+        )
+        # セレクトBOXで選択されたものを引数に、参考コードを呼び出す。
+        # NOTE:eval()メソッドは、文字列をpythonコードとして判断してくれる！
+        st.code(
+            eval(f'{sidebar_list[i]}.text_send(option_select)'),
+            language='python'
+            )
+# *****************************************************************
