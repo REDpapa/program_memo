@@ -5,6 +5,7 @@ streamlit を使ってwebサイトを作ってみる。
 """
 
 # 必要ライブラリーのインポート
+from enum import auto
 from PIL import Image
 import streamlit as st
 
@@ -23,14 +24,14 @@ st.sidebar.image(image, caption='REDpapaイメージ', use_column_width=True)
 
 st.sidebar.header('見たいものを選択してください')
 
-# サイドバーに選択リストを表示する!リスト名=ファイル名になるようにする。
+# サイドバーに選択リストを表示する!⭐️リスト名=ファイル名⭐️になるようにする。
 sidebar_list = [
     'python',
     'date_time',
     'gspread',
     'pandas'
 ]
-
+# sidebar_listの数だけサイドバーにチェックリストを作成する。
 sidebar_check_list = [st.sidebar.checkbox(_) for _ in sidebar_list]
 
 # /////////////////////////////////////////////////////////////////////////
@@ -40,6 +41,7 @@ sidebar_check_list = [st.sidebar.checkbox(_) for _ in sidebar_list]
 st.header('REDpapaのプログラムメモ')
 st.text('左のサイドバーより見たい項目をチェックしてください!')
 
+# サイドバーのチェックリストがTrueのものがあれば、メイン画面に表示!
 for i, sidebar_bool in enumerate(sidebar_check_list):
     if sidebar_bool:
         st.header(f'{sidebar_list[i]}を表示')
