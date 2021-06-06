@@ -27,8 +27,8 @@ st.sidebar.header('見たいものを選択してください')
 sidebar_list = [
     'python',
     'date_time',
-    'gspread',
-    'pandas'
+    # 'gspread',
+    # 'pandas'
 ]
 # sidebar_listの数だけサイドバーにチェックリストを作成する。
 sidebar_check_list = [st.sidebar.checkbox(_) for _ in sidebar_list]
