@@ -6,8 +6,10 @@ pythonの基本コードをここに！
 # 最初に辞書型を定義
 index_dict = {}
 
-# ******このエリアにindex_dict[] = """コード"""を書いていく********************
-index_dict['type() 型を確認する'] = """
+# ******このエリアにindex_dict[] = """コード,出力結果"""を書いていく********************
+# type() 型を確認する
+index_dict['type() 型を確認する'] = [
+ """
 # type() 型を確認する
 
 num = 1
@@ -17,15 +19,35 @@ is_ok = True
 print(num,type(num))
 print(name,type(name))
 print(is_ok,type(is_ok))
-
+ """,
+ """
 -> 1 <class 'int'>
 -> REDpapa <class 'str'>
 -> True <class 'bool'>
-"""
+ """
+]
+
+# 辞書からキーを指定して値を取得する。
+index_dict['# 辞書からキーを指定して値を取得する。'] = [
+    """
+# 辞書からキーを指定して値を取得する。
+mydict = {"JP": "Japan", "DE": "Germany", "FR": "France"}
+
+print(mydict["JP"])
+print(mydict["DE"])
+print(mydict["FR"])
+    """,
+    """
+-> Japan
+-> Germany
+-> France
+    """
+]
 
 # ************************************************************
 
 index_keys_list = list(index_dict.keys())
+
 
 # index_send関数
 def index_send():

@@ -5,7 +5,6 @@ streamlit を使ってwebサイトを作ってみる。
 """
 
 # 必要ライブラリーのインポート
-from enum import auto
 from PIL import Image
 import streamlit as st
 
@@ -51,10 +50,20 @@ for i, sidebar_bool in enumerate(sidebar_check_list):
             'どれか一つを選択してください',
             selectbox_list
         )
+
+        st.text('Python_コード')
+
         # セレクトBOXで選択されたものを引数に、参考コードを呼び出す。
         # NOTE:eval()メソッドは、文字列をpythonコードとして判断してくれる！
         st.code(
-            eval(f'{sidebar_list[i]}.text_send(option_select)'),
+            eval(f'{sidebar_list[i]}.text_send(option_select)[0]'),
+            language='python'
+            )
+
+        st.text('出力結果')
+
+        st.code(
+            eval(f'{sidebar_list[i]}.text_send(option_select)[1]'),
             language='python'
             )
 # *****************************************************************
