@@ -28,7 +28,7 @@ print(is_ok,type(is_ok))
 ]
 
 # 辞書からキーを指定して値を取得する。
-index_dict['# 辞書からキーを指定して値を取得する。'] = [
+index_dict['辞書からキーを指定して値を取得する。'] = [
     """
 # 辞書からキーを指定して値を取得する。
 mydict = {"JP": "Japan", "DE": "Germany", "FR": "France"}
@@ -41,6 +41,36 @@ print(mydict["FR"])
 -> Japan
 -> Germany
 -> France
+    """
+]
+
+# リスト内の値を結合する。
+index_dict['リスト内の値を結合する。'] = [
+    """
+# リスト内の値を結合する。
+list = ['A', 'B', 'C']
+
+print(''.join(list))
+print(','.join(list))
+    """,
+    """
+-> ABC
+-> A,B,C
+    """
+]
+
+# リスト内の値を結合する。(要素に数値型が含まれる場合)
+index_dict['リスト内の値を結合する。(要素に数値型が含まれる場合)'] = [
+    """
+# リスト内の値を結合する。(要素に数値型が含まれる場合)
+list = ['A', 'B', 'C', 1, 2, 3]
+
+map = map(str, list)
+
+print(''.join(map))
+    """,
+    """
+-> ABC123
     """
 ]
 
