@@ -48,22 +48,13 @@ for i, sidebar_bool in enumerate(sidebar_check_list):
         # セレクトBOXを表示する。
         option_select = st.selectbox(
             'どれか一つを選択してください',
-            selectbox_list
+            (selectbox_list)
         )
-
-        st.text('Python_コード')
 
         # セレクトBOXで選択されたものを引数に、参考コードを呼び出す。
         # NOTE:eval()メソッドは、文字列をpythonコードとして判断してくれる！
-        st.code(
-            eval(f'{sidebar_list[i]}.text_send(option_select)[0]'),
-            language='python'
+        st.markdown(
+            eval(f'{sidebar_list[i]}.text_send(option_select)'),
             )
 
-        st.text('出力結果')
-
-        st.code(
-            eval(f'{sidebar_list[i]}.text_send(option_select)[1]'),
-            language='python'
-            )
 # *****************************************************************
