@@ -58,3 +58,4 @@ for i, sidebar_bool in enumerate(sidebar_check_list):
             )
 
 # *****************************************************************
+st.header('を表示')
