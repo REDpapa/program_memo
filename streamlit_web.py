@@ -2,6 +2,10 @@
 streamlit を使ってwebサイトを作ってみる。
 設計図イメージは、左側のサイドバーにて表示したいメモを選択すると
 メイン画面にプログラムのメモを表示する仕組みにしたい。
+
+ローカル環境で実行する場合
+streamlit run streamlit_web.py
+をターミナルにて実行する
 """
 
 # 必要ライブラリーのインポート
@@ -11,6 +15,7 @@ import streamlit as st
 # 自作ファイルの読み出し
 import python
 import date_time
+import django
 
 
 # *********ここからwebサイトに表示される***********************
@@ -27,7 +32,7 @@ st.sidebar.header('見たいものを選択してください')
 sidebar_list = [
     'python',
     'date_time',
-    # 'gspread',
+    'django',
     # 'pandas'
 ]
 # sidebar_listの数だけサイドバーにチェックリストを作成する。
@@ -58,3 +63,6 @@ for i, sidebar_bool in enumerate(sidebar_check_list):
             )
 
 # *****************************************************************
+"""
+![tes](./image/image_django/image1.png)
+"""
