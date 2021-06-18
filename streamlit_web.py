@@ -6,6 +6,9 @@ streamlit を使ってwebサイトを作ってみる。
 ローカル環境で実行する場合
 streamlit run streamlit_web.py
 をターミナルにて実行する
+
+デプロイ先のURL
+https://share.streamlit.io/redpapa/program_memo/streamlit_web.py
 """
 
 # 必要ライブラリーのインポート
@@ -63,6 +66,3 @@ for i, sidebar_bool in enumerate(sidebar_check_list):
             )
 
 # *****************************************************************
-"""
-![tes](./image/image_django/image1.png)
-"""

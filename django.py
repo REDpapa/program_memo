@@ -7,66 +7,55 @@ pythonの基本コードをここに！
 index_dict = {}
 
 # ******このエリアにindex_dict[] = """コード,出力結果"""を書いていく********************
-# type() 型を確認する
-index_dict['type() 型を確認する'] = (
+# Django用のファイルを用意する。
+index_dict['Django用のファイルを用意する。'] = (
     """
-![テスト](./image/image_django/image1.png "どうかな!?")
+特にここは、問題なく作成できるでしょう。
+画面左上が今回作成したファイル名です。
+『DJANGO_MYPORTFOLIO』
 
-```python
-# type() 型を確認する
+![img_1](https://user-images.githubusercontent.com/79512367/122516677-067dd800-d04a-11eb-970b-502706656353.png)
 
-num = 1
-name = 'REDpapa'
-is_ok = True
-
-print(num,type(num))
-print(name,type(name))
-print(is_ok,type(is_ok))
-```
-#### 出力結果
-```bash
-1 <class 'int'>
-REDpapa <class 'str'>
-True <class 'bool'>
-```
     """
 )
 
-# 辞書からキーを指定して値を取得する。
-index_dict['辞書からキーを指定して値を取得する。'] = (
+# 仮想環境の作成とアクティベイト(仮想環境内に入る)
+index_dict['仮想環境の作成とアクティベイト(仮想環境内に入る)'] = (
     """
-```python
-# 辞書からキーを指定して値を取得する。
-mydict = {"JP": "Japan", "DE": "Germany", "FR": "France"}
+## ターミナルで実行
+#### 仮想環境を作成　【myvenv】
+```
+python -m venv myvenv
+```
+#### 仮想環境にアクティベイト
+```
+source myvenv/bin/activate
+```
 
-print(mydict["JP"])
-print(mydict["DE"])
-print(mydict["FR"])
+![img_2](https://user-images.githubusercontent.com/79512367/122516501-d1718580-d049-11eb-8fda-dd3d5dd138ce.png)
+
+
+#### こうなればOK!
 ```
-#### 出力結果
-```bash
-Japan
-Germany
-France
+(myvenv) ◆自分のパソコンのpath◆ django_myportfolio %
 ```
+##### 再起動などで再度始める際は、アクティベイト操作をして仮想環境に入ろう!
     """
+
+
 )
 
-# リスト内の値を結合する。
-index_dict['リスト内の値を結合する。'] = (
+# requirements.txtを作成してライブラリーを管理する。
+index_dict['requirements.txtを作成してライブラリーを管理する。'] = (
     """
-```python
-# リスト内の値を結合する。
-list = ['A', 'B', 'C']
+#### 右クリックから新しいファイルを作成を選択しrequirements.txtにファイル名を変更する。
+![](https://user-images.githubusercontent.com/79512367/122549614-a6992880-d06d-11eb-8f4d-de4fcf2d2f0d.png)
 
-print(''.join(list))
-print(','.join(list))
-```
-#### 出力結果
-```bash
-ABC
-A,B,C
-```
+#### requirements.txt に必要ライブラリーをバージョンを指定して記載。
+![](https://user-images.githubusercontent.com/79512367/122568244-85900200-d084-11eb-93a2-87f840e9dba0.png)
+
+#### requirements.txt に記載されたライブラリーを元にライブラリーをinstallする。
+![](https://user-images.githubusercontent.com/79512367/122568921-36969c80-d085-11eb-8815-3eccc6cf83d8.png)
     """
 )
 
