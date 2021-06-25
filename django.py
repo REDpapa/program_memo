@@ -271,17 +271,23 @@ index_dict['データベースを再構築する。(python manage.py makemigrati
     """
 
 ## モデルを追加したので、データベースの再構築をする。
+1. ターミナルにて『 python manage.py makemigrations 』を実行する。
+- Djangoにモデルに変更があったことを伝え、変更を マイグレーション の形で保存する。
 
-#### ターミナルにて『 python manage.py makemigrations 』を実行する。
-
+2. ターミナルにて『 python manage.py migrate 』を実行する。
+- mysite/settings.py ファイルのデータベース設定に従って必要なすべてのデータベースのテーブルを作成
 
 ```
 python manage.py makemigrations
 ```
 
-#### こんな感じになれば OK!!
-
 ![](https://user-images.githubusercontent.com/79512367/123385516-95ea3480-d5d0-11eb-9ef0-1e6f053d4877.png)
+
+#### ターミナルにて『 python manage.py migrate 』を実行する。
+```
+python manage.py migrate
+```
+![](https://user-images.githubusercontent.com/79512367/123386275-71428c80-d5d1-11eb-804a-3794bd72b659.png)
 
     """
 )
