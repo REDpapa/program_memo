@@ -296,24 +296,22 @@ python manage.py migrate
 index_dict['管理ユーザーを作成する。(python manage.py createsuperuser)'] = (
     """
 
-## モデルを追加したので、データベースの再構築をする。
+## 管理ユーザーの情報を登録していく。
 1. ターミナルにて『 python manage.py createsuperuser 』を実行する。
-- Djangoにモデルに変更があったことを伝え、変更を マイグレーション の形で保存する。
-
-2. ターミナルにて『 python manage.py migrate 』を実行する。
-- mysite/settings.py ファイルのデータベース設定に従って必要なすべてのデータベースのテーブルを作成
-
 ```
-python manage.py makemigrations
+python manage.py createsuperuser
 ```
 
-![](https://user-images.githubusercontent.com/79512367/123385516-95ea3480-d5d0-11eb-9ef0-1e6f053d4877.png)
+- 管理ユーザーのデータを入力していきます。
+    - ユーザー名
+    - メールアドレス
+    - パスワード
+    - パスワードの再入力
 
-#### ターミナルにて『 python manage.py migrate 』を実行する。
-```
-python manage.py migrate
-```
-![](https://user-images.githubusercontent.com/79512367/123386275-71428c80-d5d1-11eb-804a-3794bd72b659.png)
+![](https://user-images.githubusercontent.com/79512367/123543445-70ecf180-d789-11eb-8aa1-ec092e8b3b69.png)
+
+⚠️ パスワードは入力しても表示されませんが、
+ちゃんと判断してくれるので間違えないように!!
 
     """
 )
