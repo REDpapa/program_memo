@@ -19,6 +19,7 @@ import streamlit as st
 import python
 import date_time
 import django
+import REDpapa
 
 
 # *********ここからwebサイトに表示される***********************
@@ -36,7 +37,7 @@ sidebar_list = [
     'python',
     'date_time',
     'django',
-    # 'pandas'
+    'REDpapa',
 ]
 # sidebar_listの数だけサイドバーにチェックリストを作成する。
 sidebar_check_list = [st.sidebar.checkbox(_) for _ in sidebar_list]

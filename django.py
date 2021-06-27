@@ -291,6 +291,32 @@ python manage.py migrate
 
     """
 )
+
+# 管理ユーザーを作成する。(python manage.py createsuperuser)
+index_dict['管理ユーザーを作成する。(python manage.py createsuperuser)'] = (
+    """
+
+## モデルを追加したので、データベースの再構築をする。
+1. ターミナルにて『 python manage.py createsuperuser 』を実行する。
+- Djangoにモデルに変更があったことを伝え、変更を マイグレーション の形で保存する。
+
+2. ターミナルにて『 python manage.py migrate 』を実行する。
+- mysite/settings.py ファイルのデータベース設定に従って必要なすべてのデータベースのテーブルを作成
+
+```
+python manage.py makemigrations
+```
+
+![](https://user-images.githubusercontent.com/79512367/123385516-95ea3480-d5d0-11eb-9ef0-1e6f053d4877.png)
+
+#### ターミナルにて『 python manage.py migrate 』を実行する。
+```
+python manage.py migrate
+```
+![](https://user-images.githubusercontent.com/79512367/123386275-71428c80-d5d1-11eb-804a-3794bd72b659.png)
+
+    """
+)
 # ************************************************************
 
 index_keys_list = list(index_dict.keys())
