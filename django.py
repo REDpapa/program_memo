@@ -127,8 +127,8 @@ python manage.py migrate
     """
 )
 
-# runserverを起動してみよう。
-index_dict['runserverを起動してみよう。'] = (
+# runserverを起動してみよう。(python manage.py runserver)
+index_dict['runserverを起動してみよう。(python manage.py runserver)'] = (
     """
 #### ターミナルにて『 python manage.py runserver 』を実行する。
 #### 囲いの中のURLに『 command + クリック 』でアクセスする。
@@ -312,6 +312,269 @@ python manage.py createsuperuser
 
 ⚠️ パスワードは入力しても表示されませんが、
 ちゃんと判断してくれるので間違えないように!!
+
+    """
+)
+
+# 管理画面を開いてみる。 (URLに /adminを追加)
+index_dict['管理画面を開いてみる。 (URLに /adminを追加)'] = (
+    """
+
+#### まずは、サーバーを起動する。(python manage.py runserver)
+```
+python manage.py runserver
+```
+
+URLの欄にて、URLの後ろに/admin を追加して管理画面に移動する。
+
+![](https://user-images.githubusercontent.com/79512367/123547216-deede480-d79a-11eb-815f-45d0934c0415.png)
+
+### この画面がDjangoの管理画面!!
+
+![](https://user-images.githubusercontent.com/79512367/123548066-3f325580-d79e-11eb-838b-bfad5dad2a9b.png)
+
+### ユーザー名とパスワードを入力して 【Django管理画面】に入る。
+
+![](https://user-images.githubusercontent.com/79512367/123557903-77ea2300-d7ce-11eb-8cf7-d461c8e919cf.png)
+
+
+    """
+)
+
+# Django管理画面でProfile(プロフィール)を追加する。
+index_dict['Django管理画面でProfile(プロフィール)を追加する。'] = (
+    """
+
+### Django管理画面にてプロフィール情報を登録していく。
+1.画面左上 APP欄のProfilesを選択。
+
+![](https://user-images.githubusercontent.com/79512367/123558133-c51ac480-d7cf-11eb-9fd5-df36a37eda2f.png)
+
+2.画面右上 PROFILEを追加 を選択。
+
+![](https://user-images.githubusercontent.com/79512367/123558353-b254bf80-d7d0-11eb-8d8a-2a4daad2bdaf.png)
+
+3.Djangoで作成したプロフィールモデルで入力画面が作成されている。
+- 内容を入力していく。
+- 入力が終われば、画面右下の『 保存 』を選択。
+
+![](https://user-images.githubusercontent.com/79512367/123558593-11670400-d7d2-11eb-9a0b-2a9c29435f84.png)
+
+4.Profileが追加されればOK!!
+
+![](https://user-images.githubusercontent.com/79512367/123558808-30b26100-d7d3-11eb-8dd3-7543e1b8c953.png)
+
+#### 修正したい場合は、修正したいprofileを選択したらできる!!
+
+    """
+)
+
+# プロジェクトURLの設定を行う。(mysite -> urls.py)
+index_dict['プロジェクトURLの設定を行う。(mysite -> urls.py)'] = (
+    """
+
+1. mysite -> urls.py を開く。
+
+![](https://user-images.githubusercontent.com/79512367/123560365-a242dd00-d7dc-11eb-93a6-283ef1c02c96.png)
+
+2. コードを追加していく。
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+from django.conf.urls.static import static
+from django.conf import settings
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('app.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MADIA_URL, document_root=settings.MADIA_ROOT)
+```
+
+コードの意味は、わしにはわからん!!
+
+    """
+)
+
+# アプリケーションURLの作成･設定を行う。(app -> urls.pyを新規作成)
+index_dict['アプリケーションURLの作成･設定を行う。(app -> urls.pyを新規作成)'] = (
+    """
+
+1. appフォルダ -> urls.py を新規で作成する。
+
+![](https://user-images.githubusercontent.com/79512367/123965727-b3b00300-d9ef-11eb-815d-527f18ef0ac1.png)
+
+
+2. コードを追加していく。
+
+![](https://user-images.githubusercontent.com/79512367/123967785-9a0fbb00-d9f1-11eb-9ce0-429f5d9ea6c8.png)
+
+```python
+from django.urls import path
+from app import views
+
+urlpatterns = [
+    path('', views.IndexView.as_view(), name='index')
+]
+
+```
+
+コードの意味は、わしにはわからん!!
+
+    """
+)
+
+# トップページ用のビューを作成していく。(app -> views.py)
+index_dict['トップページ用のビューを作成していく。(app -> views.py)'] = (
+    """
+
+1. app -> views.py を開く。
+
+![](https://user-images.githubusercontent.com/79512367/123968442-2de18700-d9f2-11eb-9d46-c467fde2bbee.png)
+
+
+2. コードを追加していく。
+
+![](https://user-images.githubusercontent.com/79512367/124034560-555a4300-da36-11eb-8796-f0ccdda012a5.png)
+
+```python
+from django.http import request
+from django.shortcuts import render
+from django.views.generic import View
+from .models import Profile
+
+
+# Create your views here.
+class IndexView(View):
+    def get(self, reqest, **args, **kwargs):
+        # 全てのプロフィールデータを取得
+        profile_data = Profile.objects.all()
+        # もしプロフィールデータがあるなら
+        if profile_data.exists():
+            # idを降順に並び替えて、最新のプロフィールデータを取得
+            profile_data = profile_data.order_by('-id')[0]
+        # プロフィールデータをindex.htmlに渡します。
+        return render(request, 'app/index.html', {
+            'profile_data': profile_data
+        })
+
+```
+
+    """
+)
+
+# テンプレートフォルダーを作成しhtmlを作成する。(app -> templates -> app -> base.html)
+index_dict['テンプレートフォルダーを作成しhtmlを作成する。(app -> templates -> app -> base.html)'] = (
+    """
+
+1. app -> templatesフォルダーを新規で作成する。
+2. 作成したtemplatesフォルダーにappフォルダーを新規で作成する。
+3. 新規で作成した appフォルダーにbase.htmlを作成する。
+
+![](https://user-images.githubusercontent.com/79512367/124035944-3b216480-da38-11eb-97ba-a5828379b0a9.png)
+
+
+4. base.html にコードを追加していく。
+
+- Bootstrap 4 ドキュメントからCSSを読み込む。↓↓ URL ↓↓
+
+https://getbootstrap.jp/docs/4.3/getting-started/introduction/
+
+- Font Awesome のアイコンを使用するのにCSSを読み込む　↓↓ URL ↓↓
+
+https://cdnjs.com/libraries/font-awesome
+
+5. HTMLのコードを記載していく。
+
+```
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>ポートフォリオ</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a href="" class="navbar-brand">
+                <img src="{% static 'img/logo.svg' %}" alt="" width="80" heght="80">
+            </a>
+            <ul class="navbar-nav">
+                <li class="nav-item mr-3">
+                    <a href="/" class="nav-link nav-color">HOME</a>
+                </li>
+                <li class="nav-item mr-3">
+                    <a href="/" class="nav-link nav-color">ABOUT</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/" class="nav-link nav-color">CONTACT</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="container">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </main>
+
+    <footer class="py-4 bg-dark text-center">
+        <small class="text-white">&copy; 2021 赤嶺 龍弥 </small>
+    </footer>
+
+    {% block extra_js %}
+    {% endblock %}
+
+
+</body>
+</html>
+
+```
+- HTMLの型は、! + Tab で呼び出して来れる。
+
+![](https://user-images.githubusercontent.com/79512367/124038833-c3a20400-da3c-11eb-947e-8edc6016d6ac.png)
+
+    """
+)
+
+# 動的に変わるhtmlを作成する。(app -> templates -> app -> index.html)
+index_dict['動的に変わるhtmlを作成する。(app -> templates -> app -> index.html)'] = (
+    """
+
+1. templates -> appフォルダーに index.html を新規で作成する。
+
+![](https://user-images.githubusercontent.com/79512367/124192218-e47f5d80-daff-11eb-8470-2f903fe7a32a.png)
+
+
+4. base.html にコードを追加していく。
+
+- Bootstrap 4 ドキュメントからCSSを読み込む。↓↓ URL ↓↓
+
+https://getbootstrap.jp/docs/4.3/getting-started/introduction/
+
+- Font Awesome のアイコンを使用するのにCSSを読み込む　↓↓ URL ↓↓
+
+https://cdnjs.com/libraries/font-awesome
+
+5. HTMLのコードを記載していく。
+
+```
+
+
+```
 
     """
 )
