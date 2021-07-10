@@ -392,7 +392,8 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MADIA_URL, document_root=settings.MADIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 ```
 
 コードの意味は、わしにはわからん!!
@@ -559,22 +560,115 @@ index_dict['動的に変わるhtmlを作成する。(app -> templates -> app -> 
 ![](https://user-images.githubusercontent.com/79512367/124192218-e47f5d80-daff-11eb-8470-2f903fe7a32a.png)
 
 
-4. base.html にコードを追加していく。
-
-- Bootstrap 4 ドキュメントからCSSを読み込む。↓↓ URL ↓↓
-
-https://getbootstrap.jp/docs/4.3/getting-started/introduction/
-
-- Font Awesome のアイコンを使用するのにCSSを読み込む　↓↓ URL ↓↓
-
-https://cdnjs.com/libraries/font-awesome
-
-5. HTMLのコードを記載していく。
+2. HTMLのコードを記載していく。
 
 ```
+{% extends 'app/base.html' %}
 
+{% block content %}
+<div class="card top d-flex flex-column justify-content-end mb-4">
+    <img src="{{ profile_data.topimage.url }}" alt="">
+    <div class="overlay text-white p-5">
+        <h1 class="title">{{ profile_data.title}}</h1>
+        <h5 class="subtitle">{{ profile_data.subtitle}}</h5>
+    </div>
+</div>
+
+{% endblock  %}
+```
+
+![](https://user-images.githubusercontent.com/79512367/125140398-5f262980-e14d-11eb-90a1-6c5ba0b07626.png)
+
+
+    """
+)
+
+# CSSファイルを作成する。(app -> static -> css -> style.css)
+index_dict['CSSファイルを作成する。(app -> static -> css -> style.css)'] = (
+    """
+
+1. appフォルダーに新規でファイルを作成する。
+- staticフォルダーを新規で作成。
+- staticフォルダー内にcssフォルダーを作成。
+- cssフォルダー内にstyle.cssファイルを作成。
+
+![](https://user-images.githubusercontent.com/79512367/125149311-4b8db980-e173-11eb-9e65-2fe1acf151c1.png)
+
+2. CSSのコードを記載していく。(誤入力もあるはず写真は後で撮ろう)
 
 ```
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background: #f1f1f1;
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+}
+
+main{
+    flex: 1;
+}
+
+.navbar-nav{
+    flex-direction: row!important;
+}
+
+.nav-color{
+    color: black;
+}
+
+.nav-color:hover{
+    color: #ee7c4d;
+}
+
+.nav-color::after{
+    content: "";
+    display: block;
+    height: 2px;
+    background: #EE6c4d;
+    margin-top: 6px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-color:hover:after{
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+.top img {
+    object-fit: cover;
+    height: 500px;
+}
+
+.overlay{
+    position: absolute;
+}
+
+.title{
+    font-size: 2rem;
+}
+```
+    """
+)
+
+# imgフォルダー(ロゴで使う)を作成する。(app -> static -> img)
+index_dict['imgフォルダー(イメージフォルダー)を作成する。(app -> static -> img)'] = (
+    """
+
+1. app -> staticフォルダーに imgフォルダーを新規で作成する。
+
+![](https://user-images.githubusercontent.com/79512367/125165649-d0f48680-e1d2-11eb-826f-58aa3406ee6b.png)
+
+2. ロゴを表示するためにこの手順が必要。
+
+![](https://user-images.githubusercontent.com/79512367/125166695-b8d33600-e1d7-11eb-95e5-2acefa4be4fc.png)
 
     """
 )

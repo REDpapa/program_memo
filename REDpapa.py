@@ -28,9 +28,9 @@ cd img
 ```
 
 2. 『 .DS_Store 』が存在するのか確認してみよう
-- ターミナルにて『 find . -name ".DS_Store 』で.DS_Storeの存在を確認して
+- ターミナルにて『 find . -name ".DS_Store" 』で.DS_Storeの存在を確認して
 ```
-find . -name ".DS_Store
+find . -name ".DS_Store"
 ```
 
 3.『 .DS_Store 』が存在したのなら、実際に削除してこう!!
@@ -41,7 +41,7 @@ find . -name ".DS_Store" | xargs rm
 
 4. 2項のコマンドを再度実行して『 .DS_Store 』が存在しなくなっていたらOK!!
 ```
-find . -name ".DS_Store
+find . -name ".DS_Store"
 ```
 ![](https://user-images.githubusercontent.com/79512367/123541991-18febc80-d782-11eb-87ea-e021b28cf406.png)
 
