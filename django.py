@@ -197,8 +197,8 @@ INSTALLED_APPS = [
     """
 )
 
-# モデルを作成していく。(app -> models.py)
-index_dict['モデルを作成していく。(app -> models.py)'] = (
+# Profileモデルを作成していく。(app -> models.py)
+index_dict['Profileモデルを作成していく。(app -> models.py)'] = (
     """
 #### appフォルダのmodels.pyファイルを開き作業していく。
 1. appフォルダ -> models.pyファイル を開く。
@@ -396,6 +396,7 @@ if settings.DEBUG:
 
 ```
 
+![](https://user-images.githubusercontent.com/79512367/125179932-cbc52500-e22e-11eb-822b-e4929071e271.png)
 コードの意味は、わしにはわからん!!
 
     """
@@ -654,6 +655,10 @@ main{
 .title{
     font-size: 2rem;
 }
+
+.subtitle {
+    font-size: 2rem;
+}
 ```
     """
 )
@@ -669,6 +674,169 @@ index_dict['imgフォルダー(イメージフォルダー)を作成する。(ap
 2. ロゴを表示するためにこの手順が必要。
 
 ![](https://user-images.githubusercontent.com/79512367/125166695-b8d33600-e1d7-11eb-95e5-2acefa4be4fc.png)
+
+    """
+)
+
+# Workモデルを作成・adminに追加まで。(app -> models.py)
+index_dict['Workモデルを作成していく。(app -> models.py)'] = (
+    """
+
+1. Workモデルを作成していく。
+
+```python
+# ワークモデルの作成。
+class Work(models.Model):
+    title = models.CharField('タイトル',max_length=100)
+    image = models.ImageField(upload_to='images', verbose_name='イメージ画像')
+    thumbnail = models.ImageField(upload_to='images', verbose_name='サムネイル', null=True, blank=True)
+    skill = models.CharField('スキル', max_length=100)
+    url = models.CharField('URL', max_length=100, null=True, blank=True)
+    created = models.DateField('作成日')
+    description = models.TextField('説明')
+
+    def __str__(self):
+        return self.title
+
+```
+
+![](https://user-images.githubusercontent.com/79512367/125179920-a33d2b00-e22e-11eb-904e-3388076ac91f.png)
+
+
+2. 追加したWorkモデルをadminに追加していく。
+```python
+from django.contrib import admin
+from .models import Profile, Work
+
+# Register your models here.
+admin.site.register(Profile)
+admin.site.register(Work)
+```
+
+![](https://user-images.githubusercontent.com/79512367/125179829-4bea8b00-e22d-11eb-9ed0-1f221f71d36b.png)
+
+3. モデルを変更したのでマイグレーションを必要になります。
+- ターミナルにて、下記コードを実行する。
+```
+python manage.py makemigrations
+```
+- 実行が終わると、ターミナルにて再度下記を実行。
+```
+python manage.py migrate
+```
+![](https://user-images.githubusercontent.com/79512367/125179902-6113e980-e22e-11eb-85d9-58f2a7f03cea.png)
+
+4. Webサーバーを起動させて確認してみよう！
+- ターミナルにて、下記を実行する。
+```
+python manage.py runserver
+```
+5. URLにアクセスし、URLに/adminを追加して管理画面にアクセスする。
+
+![](https://user-images.githubusercontent.com/79512367/125265919-42057c80-e340-11eb-8b40-b79a12c55e08.png)
+
+6. Django管理サイト画面から Works を追加していく。
+
+![](https://user-images.githubusercontent.com/79512367/125266692-08814100-e341-11eb-8a1d-e763263cecca.png)
+
+- こんな感じで４つほど追加してみよう!
+
+![](https://user-images.githubusercontent.com/79512367/125267366-affe7380-e341-11eb-94a4-5edca3af7322.png)
+
+    """
+)
+
+# Workデータをビューできるようにする。(app -> views.py)
+index_dict['Workデータをビューできるようにする。(app -> views.py)'] = (
+    """
+
+1. app -> views.py にコードを追加していく。
+- クラスのIndexView にコードを追加する。
+```python
+# Create your views here.
+class IndexView(View):
+    def get(self, request, *args, **kwargs):
+        # 全てのプロフィールデータを取得
+        profile_data = Profile.objects.all()
+        # もしプロフィールデータがあるなら
+        if profile_data.exists():
+            # idを降順に並び替えて、最新のプロフィールデータを取得
+            profile_data = profile_data.order_by('-id')[0]
+        work_data = Work.objects.order_by('-id')
+        # プロフィールデータをindex.htmlに渡します。
+        return render(request, 'app/index.html', {
+            'profile_data': profile_data,
+            'work_data': work_data
+        })
+```
+![](https://user-images.githubusercontent.com/79512367/125269380-99591c00-e343-11eb-99a8-83dae7e00708.png)
+
+1. app -> templates -> index.html にコードを追加していく。
+```
+<div class="row mb-5">
+    {% for work in work_data %}
+        <div class="col-6 col-md-3 mb-3">
+            <div class="card work-thumnail">
+                {% if work.thumbnail %}
+                    <img src="{{ work.thumbnail.url}}" alt="" class="work-img">
+                {% else %}
+                    <img src="{{ work.image.url}}" alt="" class="work-img">
+                {% endif %}
+                <div class="work-title text-centher">
+                    <p class="mb-0">
+                        {{ work.title }}
+                    </p>
+                </div>
+                <a href="" class="stretched-link work"></a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+```
+![](https://user-images.githubusercontent.com/79512367/125282388-4dfa3a00-e352-11eb-9281-fe71dbbd96f4.png)
+
+3. static -> css -> style.css にコードを追加していく。
+```
+.work-thumbnail {
+    overflow: hidden;
+    position: relative;
+}
+
+.work-img{
+    object-fit: cover;
+    height: 240px;
+}
+
+.work-title{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: white;
+    font-weight: bold;
+    padding: 10px 15px;
+    opacity: 0;
+    background-color: rgb(238, 108, 77, 0.8);
+    transform: translateY(70px);
+    transition: all 0.2s ease-in-out;
+}
+
+.work-thumbnail:hover .work-title{
+    transform: translateY(0px);
+    opacity: 1;
+}
+
+```
+![](https://user-images.githubusercontent.com/79512367/125290582-6fabef00-e35b-11eb-8141-7e2e1b4efce5.png)
+
+4. runserverを起動して状態を確認しよう！
+- ターミナルにて、
+```
+python manage.py runserver
+```
+
 
     """
 )
