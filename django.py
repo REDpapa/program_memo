@@ -840,6 +840,93 @@ python manage.py runserver
 
     """
 )
+
+# 作品詳細を見れるようにしていく。
+index_dict['作品詳細を見れるようにしていく。'] = (
+    """
+
+1. app -> urls.py にコードを追加していく。
+```
+urlpatterns = [
+    path('', views.IndexView.as_view(), name='index'),
+    path('detail/<int:pk>', views.DetailView.as_view(), name='detail'),
+]
+```
+
+![](https://user-images.githubusercontent.com/79512367/126053393-32f4f0c9-0f79-446a-887c-ce8a44b585b4.png)
+
+2. app -> views.py にコードを追加していく。
+
+```
+class DetailView(View):
+    def get(self, request, *args, **kwargs):
+        work_data = Work.objects.get(id=self.kwargs['pk'])
+        return render(request, 'app/detail.html', {
+            'work_data': work_data
+        })
+
+
+```
+
+![](https://user-images.githubusercontent.com/79512367/126053432-ffd30e89-22d0-410e-8abb-752f277761a7.png)
+
+3. templates -> app -> index.html を開きコードを追加していく。
+
+- URLのdetail/<int:pk>/の<int:pkにwork.idが入る。
+
+![](https://user-images.githubusercontent.com/79512367/126053591-e7ef01ea-e4b1-4326-a340-041093a63d84.png)
+
+3. templates -> app -> に新規でファイルを作成し detail.html とする。
+
+```
+{% extends 'app/base.html' %}
+
+{% block  content %}
+
+<h3 class="mb-4">{{ work_data.title}}</h3>
+<div class="card top mb-4">
+    <img src="{{ work_data.image.url }}" alt="">
+</div>
+
+<div class="row">
+    <div class="col-sm-4 mb-4">
+        <h4 class="mb-3">INFORMATION</h4>
+        <p>
+            <i class="fas fa-laptop-code mr-2"></i>
+            <span class="font-weight-bolder">SKILLS:</span>
+            {{ work_data.skill}}
+        </p>
+        <hr>
+        <p>
+            <i class="fab fa-github mr-2"></i>
+            <span class="font-weight-bolder">GITHUB:</span>
+            {% if work_data.url %}
+                <a href="{{ work_data.url }}" target="_blank" class="link-color">Link</a>
+            {% else %}
+                Privete
+            {% endif %}
+        </p>
+        <hr>
+        <p>
+            <i class="fas fa-calendar-alt mr-2"></i>
+            <span class="font-weight-bolder">CREATED:</span>
+            {{ work_data.created}}
+        </p>
+        <hr>
+    </div>
+    <div class="col-sm-8 mb-5">
+        <h4 class="mb-3">PROJECT DESCRIPTION</h4>
+        <P>{{ work_data.description|linebreaksbr }}</P>
+    </div>
+</div>
+
+{% endblock  %}
+```
+
+4. static -> css -> style.css を開きコードを追加していく。
+
+    """
+)
 # ************************************************************
 
 index_keys_list = list(index_dict.keys())
