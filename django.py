@@ -927,6 +927,253 @@ class DetailView(View):
 
     """
 )
+
+# プロフィール詳細/学歴･職歴を見れるようにしていく。
+index_dict['プロフィール詳細/学歴･職歴を見れるようにしていく。'] = (
+    """
+
+1. app -> urls.py にコードを追加していく。
+
+```
+urlpatterns = [
+    path('', views.IndexView.as_view(), name='index'),
+    path('detail/<int:pk>', views.DetailView.as_view(), name='detail'),
+    path('about', views.AboutView.as_view(), name='about'),
+]
+
+```
+![](https://user-images.githubusercontent.com/79512367/126575570-42627513-333f-49ee-8c3b-8b918a72ad51.png)
+
+2. app -> views.py にコードを追加していく。
+- 下記コードを追加
+```
+class AboutView(View):
+    def get(self, request, *args, **kwargs):
+        profile_data = Profile.objects.all()
+        if profile_data.exists():
+            profile_data = profile_data.order_by('-id')[0]
+        return render(request, 'app/about.html', {
+            'profile_data': profile_data
+        })
+
+```
+
+![](https://user-images.githubusercontent.com/79512367/126575741-40ee72d5-b84e-402b-8997-bc9ede36b3e5.png)
+
+3. templates -> app -> base.html にコードを追加。
+
+- ABOUT ボタンを押されると URLにabout を追加している。
+
+![](https://user-images.githubusercontent.com/79512367/126576889-e7ebf919-92d8-4370-9406-9c1d20037521.png)
+
+4. templates -> app -> about.html ファイルを新規で作成する。
+- htmlのコードを記載していく。
+
+```
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<h3 class="mb-4">Profile</h3>
+<div class="mb-5">
+    <div class="row">
+        <div class="col-md-8">
+            <p>{{ profile_data.introduction|linebreaksbr }}</p>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center px-5 py-4">
+                <div class="avatar mb-3">
+                    <img src="{{ profile_data.subimage.url}}" alt="" class="card-img-top rounded-circle">
+                </div>
+                <h5 class="font-weight-bolder">{{ profile_data.name}}</h5>
+                <p class="mb-3 small text-center">{{ profile_data.job|linebreaksbr}}</p>
+                <div class="d-flex justify-content-around">
+                    {% if profile_data.github %}
+                        <a href="{{ profile_data.github}}" target="_blank"><i class="fab fa-github fa-lg rounded btn-dark icon"></i></a>
+                    {% endif %}
+                    {% if profile_data.twitter %}
+                        <a href="{{ profile_data.twitter}}" target="_blank"><i class="fab fa-twitter fa-lg rounded btn-primary icon"></i></a>
+                    {% endif %}
+                    {% if profile_data.lindedin %}
+                        <a href="{{ profile_data.lindedin}}" target="_blank"><i class="fab fa-linded-in fa-lg rounded btn-info icon"></i></a>
+                    {% endif %}
+                    {% if profile_data.facebook %}
+                        <a href="{{ profile_data.facebook}}" target="_blank"><i class="fab fa-facebook-f fa-lg rounded btn-dark icon"></i></a>
+                    {% endif %}
+                    {% if profile_data.instagram %}
+                        <a href="{{ profile_data.instagram}}" target="_blank"><i class="fab fa-instagram fa-lg rounded btn-danger icon"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock  %}
+
+```
+
+5. static -> css -> style.css を編集していく。
+
+```
+.abater img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.icon {
+    padding: 10px 8px;
+}
+```
+
+![](https://user-images.githubusercontent.com/79512367/126578247-bb265d15-7659-420c-8521-9eec1c5d38ae.png)
+
+6. 職歴･学歴のモデルを作っていく。
+- app -> models.py にコードを追加していく。
+
+```
+# 職歴のモデルを作る。
+class Exprience(models.Model):
+    occupation = models.CharField('職種', max_length=100)
+    company = models.CharField('会社', max_length=100)
+    description = models.TextField('説明')
+    place = models.CharField('場所', max_length=100)
+    period = models.CharField('期間', max_length=100)
+
+    def __str__(self) -> str:
+        return self.occupation
+
+
+# 学歴モデルを作る。
+class Education(models.Model):
+    course = models.CharField('コース', max_length=100)
+    school = models.CharField('学校', max_length=100)
+    place = models.CharField('場所', max_length=100)
+    period = models.CharField('期間', max_length=100)
+
+    def __str__(self) -> str:
+        return self.course
+
+```
+
+7. 管理画面でデータを登録できるようにしていく。
+
+- app -> admin.py にコードを追加していく。
+
+```
+from django.contrib import admin
+from .models import Profile, Work, Experience, Education
+
+# Register your models here.
+admin.site.register(Profile)
+admin.site.register(Work)
+admin.site.register(Experience)
+admin.site.register(Education)
+```
+
+![](https://user-images.githubusercontent.com/79512367/126593480-ec22c1cb-ee67-48a1-8a8c-0157bf639c37.png)
+
+7. モデルを変更したので、マイグレーションを実行していく。(データベースの再構築)
+- 『ターミナル』にて!
+
+```
+python manage.py makemigrations
+```
+
+- 処理が済んだら、『ターミナル』にて
+
+```
+python manage.py migrate
+```
+
+- 再構築が済んだので、webサーバーを起動させる。
+```
+python manage.py runserver
+```
+
+8. URLに『/admin』を追加してデータを入力していく。
+
+![](https://user-images.githubusercontent.com/79512367/126594523-aed32d02-0c72-448f-8532-c9578e26286e.png)
+
+9. app -> views.py にコードを追加していく。
+
+- 追加したクラスモデルをimportする。
+
+```
+from django.shortcuts import render
+from django.views.generic import View
+from .models import Profile, Work, Experience, Education
+```
+![](https://user-images.githubusercontent.com/79512367/126608571-6e9153a6-9fb4-487b-8792-5de1e9beaea9.png) 
+
+
+- AboutViewクラスに コードを追加していく。
+
+```
+class AboutView(View):
+    def get(self, request, *args, **kwargs):
+        profile_data = Profile.objects.all()
+        if profile_data.exists():
+            profile_data = profile_data.order_by('-id')[0]
+        experience_data = Experience.objects.order_by('-id')
+        education_data = Education.objects.order_by('-id')
+        return render(request, 'app/about.html', {
+            'profile_data': profile_data,
+            'experience_data': experience_data,
+            'education_data': education_data
+        })
+
+```
+![](https://user-images.githubusercontent.com/79512367/126608578-3481ba5f-3c22-41fb-81c2-89ebeab8e9f6.png)
+
+10. templates -> app -> about.html ファイルにコードを追加していく。
+
+- about.html の{% endblock %} のすぐ上に追加する。
+
+```
+
+<h3 class="mb-4">Experience</h3>
+<div class="mb-5">
+    {% for experience in experience_data %}
+        <div class="d-flex justify-content-between">
+            <h5>{{ experience.occupation }} <span class="small text-secondary"> - {{ experience.company }}</span></h5>
+            <p class="mb-1">{{ experience.period }}</p>
+        </div>
+        <p class="mb-1">{{ experience.description|linebreaksbr }}</p>
+        <p>{{ experience.place }}</p>
+        <hr>
+    {% endfor %}
+</div>
+
+<h3 class="mb-4">Education</h3>
+<div class="mb-5">
+    {% for education in education_data %}
+        <div class="d-flex justify-content-between">
+            <h5>{{ education.course }} <span class="small text-secondary"> - {{ education.school }}</span></h5>
+            <p class="mb-1">{{ education.period }}</p>
+        </div>
+        <p>{{ education.place }}</p>
+        <hr>
+    {% endfor %}
+</div>
+
+```
+
+11. webサーバーを起動してみよう!!
+
+- 『ターミナル』にて
+
+```
+python manage.py runserver
+```
+
+- ABOUTを選択してページを移動しよう!! 下記のような形になっていたらOK!!
+
+![](https://user-images.githubusercontent.com/79512367/126612099-9ab5e764-a5ea-4ff8-b25b-6e72c8e1d7bb.png)
+
+    """
+)
 # ************************************************************
 
 index_keys_list = list(index_dict.keys())
