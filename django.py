@@ -846,7 +846,7 @@ index_dict['作品詳細を見れるようにしていく。'] = (
     """
 
 1. app -> urls.py にコードを追加していく。
-```
+```python
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('detail/<int:pk>', views.DetailView.as_view(), name='detail'),
@@ -857,7 +857,7 @@ urlpatterns = [
 
 2. app -> views.py にコードを追加していく。
 
-```
+```python
 class DetailView(View):
     def get(self, request, *args, **kwargs):
         work_data = Work.objects.get(id=self.kwargs['pk'])
@@ -934,7 +934,7 @@ index_dict['プロフィール詳細/学歴･職歴を見れるようにして�
 
 1. app -> urls.py にコードを追加していく。
 
-```
+```python
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('detail/<int:pk>', views.DetailView.as_view(), name='detail'),
@@ -946,7 +946,8 @@ urlpatterns = [
 
 2. app -> views.py にコードを追加していく。
 - 下記コードを追加
-```
+
+```python
 class AboutView(View):
     def get(self, request, *args, **kwargs):
         profile_data = Profile.objects.all()
@@ -1032,7 +1033,7 @@ class AboutView(View):
 6. 職歴･学歴のモデルを作っていく。
 - app -> models.py にコードを追加していく。
 
-```
+```python
 # 職歴のモデルを作る。
 class Exprience(models.Model):
     occupation = models.CharField('職種', max_length=100)
@@ -1061,7 +1062,7 @@ class Education(models.Model):
 
 - app -> admin.py にコードを追加していく。
 
-```
+```python
 from django.contrib import admin
 from .models import Profile, Work, Experience, Education
 
@@ -1110,7 +1111,7 @@ from .models import Profile, Work, Experience, Education
 
 - AboutViewクラスに コードを追加していく。
 
-```
+```python
 class AboutView(View):
     def get(self, request, *args, **kwargs):
         profile_data = Profile.objects.all()
@@ -1171,6 +1172,377 @@ python manage.py runserver
 - ABOUTを選択してページを移動しよう!! 下記のような形になっていたらOK!!
 
 ![](https://user-images.githubusercontent.com/79512367/126612099-9ab5e764-a5ea-4ff8-b25b-6e72c8e1d7bb.png)
+
+    """
+)
+
+# スキルページを完成させる。
+index_dict['スキルページを完成させる。'] = (
+    """
+
+1. app -> models.py にコードを追加していく。
+
+- スキルのモデルを作成していく。
+
+```python
+# スキルのモデルを作成する。
+class Software(models.Model):
+    name = models.CharField('ソフトウェア', max_length=100)
+    level = models.CharField('レベル', max_length=100)
+    percentage = models.IntegerField('パーセンテージ')
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Technical(models.Model):
+    name = models.CharField('テクニカル', max_length=100)
+    level = models.CharField('レベル', max_length=100)
+    percentage = models.IntegerField('パーセンテージ')
+
+    def __str__(self) -> str:
+        return self.name
+
+```
+![](https://user-images.githubusercontent.com/79512367/126636781-c4f3def8-dcf4-4d40-b82f-deab5a9e7335.png)
+
+
+2. app -> admin.py にコードを追加していく。
+
+```python
+from django.contrib import admin
+from .models import Profile, Work, Experience, Education, Software, Technical
+
+# Register your models here.
+admin.site.register(Profile)
+admin.site.register(Work)
+admin.site.register(Experience)
+admin.site.register(Education)
+admin.site.register(Software)
+admin.site.register(Technical)
+
+```
+![](https://user-images.githubusercontent.com/79512367/126637036-fe628645-1722-494b-b4d7-d98edadb1303.png)
+
+3. モデルの変更を行ったので、恒例のマイグレーションを行う。
+- 『ターミナル』にて
+```
+python manage.py makemigrations
+```
+- 続けて
+```
+python manage.py migrate
+```
+- webサーバーを立ち上げよう。
+```
+python manage.py runserver
+```
+4. URLに/adminを追加してデータの登録を行っていく。
+- Software,Technical のデータを追加していく。
+
+![](https://user-images.githubusercontent.com/79512367/126643831-6699cef5-f229-4410-95d0-77fb3c177063.png)
+
+5. app -> views.py にコードを追加していく。
+
+- Software,Technical をimportしていく。
+
+```python
+from django.shortcuts import render
+from django.views.generic import View
+from .models import Profile, Work, Experience, Education, Software, Technical
+
+```
+
+- AboutView クラスにコードを追加していく。
+```python
+class AboutView(View):
+    def get(self, request, *args, **kwargs):
+        profile_data = Profile.objects.all()
+        if profile_data.exists():
+            profile_data = profile_data.order_by('-id')[0]
+        experience_data = Experience.objects.order_by('-id')
+        education_data = Education.objects.order_by('-id')
+        software_data = Software.objects.order_by('-id')
+        technical_data = Technical.objects.order_by('-id')
+        return render(request, 'app/about.html', {
+            'profile_data': profile_data,
+            'experience_data': experience_data,
+            'education_data': education_data,
+            'software_data': software_data,
+            'technical_data': technical_data,
+        })
+```
+
+6. templates -> app -> about.html ファイルにコードを追加していく。
+- スキルを表示できるようにしていく。
+- endblock のすぐ上に追加していく。
+
+```
+<h3 class="mb-4">Software Skills</h3>
+<div class="mb-5">
+    <div class="row">
+        {% for software in software_data %}
+            <div class="col-6 col-md-3">
+                <h5 class="mb-0">{{ software.name }}<span class="small text-secondary"> - {{ software.level }}</span></h5>
+                <div class="d-flex flex-row">
+                    <div class="star-rating">
+                        <div class="star-rating-front" style="width:{{ software.percentage }}%">★★★★★★</div>
+                        <div class="star-rating-back">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<h3 class="mb-4">Technical Skills</h3>
+<div class="mb-5">
+    <div class="row">
+        {% for technical in technical_data %}
+            <div class="col-6 col-md-3">
+                <h5 class="mb-0">{{ technical.name }}<span class="small text-secondary"> - {{ technical.level }}</span></h5>
+                <div class="d-flex flex-row">
+                    <div class="star-rating">
+                        <div class="star-rating-front" style="width:{{ technical.percentage }}%">★★★★★★</div>
+                        <div class="star-rating-back">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+```
+
+7. static -> css -> style.css を開きコードを追加していく。
+- CSSを綺麗にしていく。
+
+```
+.star-rating {
+    position: relative;
+    font-size: 30px;
+    word-wrap: normal!important;
+}
+
+.star-rating-front {
+    position: absolute;
+    top: 0%;
+    left: 0;
+    overflow: hidden;
+    color: #ee6c4d;
+}
+
+.star-rating-back {
+    color: #ccc;
+}
+
+```
+8. webサーバーを立ち上げよう。
+- 『ターミナル』にて
+```
+python manage.py runserver
+```
+
+    """
+)
+
+# お問い合わせページを完成させる。
+index_dict['お問い合わせページを完成させる。'] = (
+    """
+
+1. mysite -> settings.py にコードを追加していく。
+
+- 末端に下記コードを記載する。
+- 本番用と開発用があるみたい。
+
+```python
+# 開発段階でしようする場合
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# # 本番用
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER ='***@gmail.com'
+# EMAIL_HOST_PASSWORD = '****'
+# EMAIL_USE_TLS = True
+```
+
+2. app -> settings.py にコードを追加していく。
+
+```python
+from django.urls import path
+from app import views
+
+urlpatterns = [
+    path('', views.IndexView.as_view(), name='index'),
+    path('detail/<int:pk>', views.DetailView.as_view(), name='detail'),
+    path('about', views.AboutView.as_view(), name='about'),
+    path('contact', views.ContactView.as_view(), name='contact'),
+]
+```
+
+![](https://user-images.githubusercontent.com/79512367/126725485-72ffd5c9-2532-446e-aa84-1b8ec50e0160.png)
+
+3. app フォルダーに forms.py を新規で作成しコードを記載していく。
+
+```python
+from django import forms
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100, label='名前')
+    email = forms.EmailField(max_length=100, label='メールアドレス')
+    message = forms.CharField(label='メッセージ', widget=forms.Textarea())
+
+```
+
+![](https://user-images.githubusercontent.com/79512367/126726196-281b3565-5749-438f-9c5a-3b68a48b9e4b.png)
+
+4. app -> views.py にコードを追加していく。
+
+- お問い合わせに必要なモジュールをimporotする。
+
+```python
+from django.shortcuts import render, redirect
+from django.views.generic import View
+from .forms import ContactForm
+from .models import Profile, Work, Experience, Education, Software, Technical
+from django.conf import settings
+from django.core.mail import BadHeaderError, EmailMessage
+from django.http import HttpResponse
+import textwrap
+```
+
+- ContactForm クラスを作成していく。記載ミスあると思う。
+
+```python
+class ContactView(View):
+    def get(self, request, *args, **kwargs):
+        form = ContactForm(request.POST or None)
+        return render(request, 'app/contact.html', {
+            'form': form
+        })
+
+    def post(self, request, *args, **kwargs):
+        form = ContactForm(request.POST or None)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            subject = 'お問い合わせありがとうございます。'
+            contact = textwrap.dedent('''
+                ※このメールはシステムからの自動返信です。
+
+                {name} 様
+
+                お問い合わせありがとうございます。
+                以下の内容でお問い合わせを受付いたしました。
+                内容を確認させていただき、ご返信させて頂きますので、少々お待ちください。
+
+                ----------------------------
+                ■お名前
+                {name}
+
+                ■メールアドレス
+                {email}
+
+                ■メッセージ
+                {message}
+                ----------------------------
+
+                ''').format(
+                    name=name,
+                    email=email,
+                    message=message
+                )
+
+            to_list = [email]
+            bcc_list = [settings.EMAIL_HOST_USER]
+
+            try:
+                message = EmailMessage(
+                    subject=subject,
+                    body=contact,
+                    to=to_list,
+                    bcc=bcc_list)
+                message.send()
+            except BadHeaderError:
+                return HttpResponse('無効なヘッダが検出させました。')
+
+            return redirect('index')
+
+        return render(request, 'app/contact.html', {
+            'form': form
+        })
+
+
+```
+
+5. templates -> app -> base.html にコードを追加していく。
+
+- CONTACT ボタンを押すと contactページに移動するようにする。
+
+![](https://user-images.githubusercontent.com/79512367/126732077-ecbd1e37-6a9a-48f7-a264-bbe08513703c.png)
+
+6. templates -> app -> contact.html を新規で作成してコードを追加していく。
+
+
+```
+{% extends 'app/base.html' %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="card text-center contact mx-auto rounded">
+    <div class="card-body">
+        <h2 class="mb-4">Contact Me</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                {% render_field form.name class='form-control' placeholder='名前' %}
+            </div>
+            <div class="mb-3">
+                {% render_field form.email class='form-control' placeholder='メールアドレス' %}
+            </div>
+            <div class="mb-3">
+                {% render_field form.message class='form-control' placeholder='メッセージ' %}
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-warning" type='submit'><i class="fas fa-paper-plane"></i>送信する</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+
+```
+
+7. static -> css -> style.css を開きコードを追加していく。
+- CSSを綺麗にしていく。
+
+```
+.contact {
+    max-width: 500px;
+}
+
+.form-control:focus {
+    border-color: #EE6c4d;
+    box-shadow: none;
+}
+
+.card {
+    border: none;
+}
+```
+
+8. webサーバーを起動して、CONTACTを選択してページを移動する。
+
+![](https://user-images.githubusercontent.com/79512367/126751526-4c142292-e2a2-45a9-853b-a8b222b12b5e.png)
 
     """
 )
