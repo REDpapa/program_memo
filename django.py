@@ -1541,8 +1541,64 @@ class ContactView(View):
 ```
 
 8. webサーバーを起動して、CONTACTを選択してページを移動する。
-
+- お問い合わせフォームが表示されればOK!!
 ![](https://user-images.githubusercontent.com/79512367/126751526-4c142292-e2a2-45a9-853b-a8b222b12b5e.png)
+
+    """
+)
+
+# お問い合わせ、ありがとうのページを完成させる。
+index_dict['お問い合わせ、ありがとうのページを完成させる。'] = (
+    """
+
+1. app -> urls.py にコードを追加していく。
+
+```python
+from django.urls import path
+from app import views
+
+urlpatterns = [
+    path('', views.IndexView.as_view(), name='index'),
+    path('detail/<int:pk>', views.DetailView.as_view(), name='detail'),
+    path('about/', views.AboutView.as_view(), name='about'),
+    path('contact/', views.ContactView.as_view(), name='contact'),
+    path('thanks', views.ThanksView.as_view(), name='thanks'),
+]
+```
+
+2. app -> viwes.py にコードを追加していく。
+
+- ContactView クラスの return redirect('index')を変更する。
+
+![](https://user-images.githubusercontent.com/79512367/126779247-6638fb46-c69c-495b-a219-246701c1c478.png)
+
+- ThanksView クラスを末に追加していく。
+
+```python
+class ThanksView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'app/thanks.html')
+```
+
+3. templates -> app -> thanks.html ファイルを新規で作成。
+
+```
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<div class="text-center my-5">
+    <h1 class="mb-5">お問い合わせありがとうございました。</h1>
+    <p class="mb-2">内容を確認いたしまして、ご連絡させて頂きます。</p>
+    <p class="mb-4">しばらくお待ちください。</p>
+    <a href="/" class="btn btn-warning">ホームに戻る</a>
+</div>
+
+{% endblock %}
+```
+
+- ただし、Emailの設定ができてないので上手く行かないはず!!
+- 別途、調べていこうと思う。
 
     """
 )
