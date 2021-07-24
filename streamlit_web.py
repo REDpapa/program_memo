@@ -22,6 +22,7 @@ import django
 import REDpapa
 import openpyxl
 import GitHub
+import Heroku
 
 
 # *********ここからwebサイトに表示される***********************
@@ -41,7 +42,8 @@ sidebar_list = [
     'django',
     'REDpapa',
     'openpyxl',
-    'GitHub'
+    'GitHub',
+    'Heroku'
 ]
 # sidebar_listの数だけサイドバーにチェックリストを作成する。
 sidebar_check_list = [st.sidebar.checkbox(_) for _ in sidebar_list]
