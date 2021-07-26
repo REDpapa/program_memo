@@ -63,11 +63,16 @@ worker: python worker.py
 index_dict['Heroku へデプロイを行っていく。'] = (
     """
 1. Heroku へログインしていく。
--『ターミナル』にて　(HerokuのCLIがインストールができていること)
+
+- 『ターミナル』にて
+- (HerokuのCLIがインストールができていること)
+
 ```
 heroku login
 ```
+
 - 実行するとこんな感じになる。-> enterを押す!!
+
 ![](https://user-images.githubusercontent.com/79512367/126859351-7ecfd2d8-0d8f-42c2-9c40-04a04bba20c1.png)
 
 - ブラウザが立ち上がるので、Log Inのボタンを押す!!
@@ -95,6 +100,7 @@ heroku create ここにアプリケーション名
 ![](https://user-images.githubusercontent.com/79512367/126860138-686292f2-2418-4096-b520-ecd3bd444919.png)
 
 3. GitHubと紐付けを行っていく!!
+
 - まずは、Gitの初期化　『ターミナル』にて
 ```
 git init
@@ -113,18 +119,28 @@ git remote -v
 ![](https://user-images.githubusercontent.com/79512367/126860421-b1c47529-47f8-4590-81ec-d4e1870d3ba0.png)
 
 - 後はGitHubのpushとほぼ同じ!!『ターミナルにて』
+##### 全てのファイルを選択して。
 ```
 git add .
 ```
-##### 全てのファイルを選択して。
+- コミットメッセージを入れて。
+#### メッセージ内容はなんだっていいよ!
 ```
 git commit -m 'heroku 1com'
 ```
-##### コミットメッセージを入れて(なんだっていい)
+
+- 『 git remote app heroku アプリケーションURL 』を実行してherokuのアプリケーションURLを指定する。
+- アプリケーションURLの確認方法は『 git remote -v 』で確認できる。
+
+```
+git remote app heroku アプリケーションURL
+```
+
+- 『 git push heroku master 』を実行することで、herokuにデプロイが開始される。
 ```
 git push heroku master
 ```
-##### ちょっと時間かかるけど気にしないで!!
+##### ※ちょっと時間かかるけど気にしないで!!
 
 - デプロイが完了したら、再度HerokuのWebサイトにアクセスしてリロードしよう!!
 下記画像のようにPythonと理解してくれていたらOKでしょう!!
@@ -203,7 +219,8 @@ index_dict['# Heroku Webサイト内でアプリケーションの設定をし�
 
 9. Job Editor が立ち上がるので、下記の画像を参考に設定をしてください。
 
-#### ※UTC時間での設定になるので、日本時間にするには９時間加算してください。
+#### ※UTC時間での設定になるので、日本時間にするには９時間減算してください。
+#### <例えば>　朝の6時に設定したいなら、UTC時間では22:00(PM10:00)にする。
 
 ![](https://user-images.githubusercontent.com/79512367/126880578-fdc29020-8067-4e8b-8879-e74e6a8821ca.png)
 
@@ -215,6 +232,13 @@ index_dict['# Heroku Webサイト内でアプリケーションの設定をし�
     """
 )
 
+# ターミナルを使って Heroku でログを確認する。
+index_dict['ターミナルを使って Heroku でログを確認する。'] = (
+    """
+1. 
+
+    """
+)
 # ************************************************************
 
 # index_listのキーデータをリストにする。
