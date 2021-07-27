@@ -32,6 +32,10 @@ https://www.youtube.com/watch?v=u-qrnpq7OOE&t=3173s
 
 https://lotus-base.com/blog/19
 
+5. Heroku のコマンドのメモ
+
+https://qiita.com/nao_h/items/91bcfbdd1d558bff6dc0
+
 
     """
 )
@@ -83,8 +87,8 @@ worker: python worker.py
     """
 )
 
-# Heroku へデプロイを行っていく。
-index_dict['Heroku へデプロイを行っていく。'] = (
+# Heroku へ 新しいプログラムをデプロイする。
+index_dict['Heroku へ 新しいプログラムをデプロイする。'] = (
     """
 1. Heroku へログインしていく。
 
@@ -174,6 +178,71 @@ git push heroku master
     """
 )
 
+# Heroku へ プログラムの変更したものをデプロイする。(アプリケーション作成済み)
+index_dict['Heroku へ プログラムの変更したものをデプロイする。(アプリケーション作成済み)'] = (
+    """
+1. Heroku へログインしていく。
+
+- 『ターミナル』にて
+
+```
+heroku login
+```
+
+- 実行するとこんな感じになる。-> enterを押す!!
+
+![](https://user-images.githubusercontent.com/79512367/126859351-7ecfd2d8-0d8f-42c2-9c40-04a04bba20c1.png)
+
+- ブラウザが立ち上がるので、Log Inのボタンを押す!!
+
+![](https://user-images.githubusercontent.com/79512367/126859414-0909ee9e-f3ec-48db-9992-b33ed7fd530d.png)
+
+- ログイン完了したらこんな感じになる。
+
+![](https://user-images.githubusercontent.com/79512367/126859552-618d32b9-320c-44bb-8c8a-06baa3fb0269.png)
+
+2. Heroku にデプロイしているアプリケーション名を調べる。
+
+```
+heroku apps
+```
+- 下記のような形でアプリケーションの確認ができる。
+
+![](https://user-images.githubusercontent.com/79512367/127224913-1f5bb50b-4d68-4ba3-851c-a8037a054b7c.png)
+
+3. アプリケーションの概要を確認して、git URLを確認していく。
+
+```
+$ heroku info --app <アプリケーション名>
+```
+
+- Git URLを確認する。
+
+![](https://user-images.githubusercontent.com/79512367/127226809-4735ed05-4b47-43ce-89a4-6022ba52824f.png)
+
+4. 後は、Gitのpush工程と同じ!!
+
+全てのファイルを選択して
+```
+git add .
+```
+
+コミットメッセージを入れて
+
+```
+git commit -m 'コミットメッセージ'
+```
+
+pushしていく(アプリケーションのGit URLは、３項で確認したもの)
+
+```
+git push <アプリケーションのGit URL> master
+```
+
+これでOK!!(少し時間かかるけど)
+
+    """
+)
 
 # Heroku Webサイト内でアプリケーションの設定をしていく。【常に実行しておく設定】
 index_dict['# Heroku Webサイト内でアプリケーションの設定をしていく。【常に実行しておく設定】'] = (
