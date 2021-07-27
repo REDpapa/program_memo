@@ -294,13 +294,14 @@ index_dict['Heroku に環境変数を設定する。'] = (
 
 ## 環境変数の設定方法は、２つ方法がある。
 
-###１つ目ターミナルを使った方法!!
+### １つ目ターミナルを使った方法!!
+
 
 1. まずは、Herokuにログインする。
 
 2. 『 heroku config:set 環境変数="アクセスキーなどなど" -a アプリケーション名 』 で設定できる。
 
-<例えは>
+<例えば>
 - 環境変数名が "ACCESS_TOKEN"
 - 環境変数の値が "abcde5963"
 - アプリケーション名が "heroku-thanks"
@@ -318,7 +319,7 @@ heroku config:set ACCESS_TOKEN=abcde5963 -a heroku-thanks
 
 ![](https://user-images.githubusercontent.com/79512367/127057196-bc958a31-0ede-4bfd-866b-b99d102d1a4b.png)
 
-### Heroku のWebサイトから環境変数を設定する。こっちの方がオススメ!!
+### ２つ目 Heroku のWebサイトから環境変数を設定する。こっちの方がオススメ!!
 
 1. Heroku Webサイトにアクセスして ログインする。
 
