@@ -213,7 +213,7 @@ heroku apps
 3. アプリケーションの概要を確認して、git URLを確認していく。
 
 ```
-$ heroku info --app <アプリケーション名>
+heroku info --app <アプリケーション名>
 ```
 
 - Git URLを確認する。
@@ -357,8 +357,8 @@ heroku logs
     """
 )
 
-# Heroku に環境変数を設定する。
-index_dict['Heroku に環境変数を設定する。'] = (
+# Heroku に環境変数を設定する。＆ タイムゾーンの変更も！
+index_dict['Heroku に環境変数を設定する。＆ タイムゾーンの変更も！'] = (
     """
 
 ## 環境変数の設定方法は、２つ方法がある。
@@ -407,6 +407,47 @@ heroku config:set ACCESS_TOKEN=abcde5963 -a heroku-thanks
 ![](https://user-images.githubusercontent.com/79512367/127059237-a23e3ae2-25a9-45f4-a086-035b6a361723.png)
 
 以上で終わりです!!
+
+### ここからは、タイムゾーンの変更について!!
+
+- プログラム内の時間の設定を日本の時間に変更することができる。
+- という認識であってると思うけど・・・　やって行こう!!
+- ターミナル操作を書くがWebサイトで直接書く方がいいと思う。
+
+
+1. Herokuへのログインを済ませておく。
+
+2. ターミナルに、下記のコードを実行する
+```
+heroku config:add TZ=Asia/Tokyo
+```
+
+はい!!これで終わり!!
+
+3. Config Vars 欄の『KEY』と『VALUE』に追加されているはず!!
+
+- 要はここに入力したらいいだけ!!
+
+    """
+)
+
+# Heroku の環境でプログラムを実行する。
+index_dict['Heroku の環境でプログラムを実行する。'] = (
+    """
+### HerokuにデプロイされたプログラムをHeroku上で実行すること!!
+
+- ターミナルにて、
+
+1. Herokuにログインする。
+
+2. 下記コードを実行する。
+```
+heroku run python manage.py
+```
+
+これでOK!!
+
+※もしかしたら、アプリケーションの選択みたいなのもいるかも？
 
     """
 )
