@@ -451,6 +451,62 @@ heroku run python manage.py
 
     """
 )
+
+# GitHub にデプロイするとHerokuにもデプロイする設定。
+index_dict['GitHub にデプロイするとHerokuにもデプロイする設定。'] = (
+    """
+1. HerokuのWebサイトにログインする。
+
+2. タブの部分『Deploy』をクリックする。
+
+![](https://user-images.githubusercontent.com/79512367/128297671-2e4ce7d9-fe62-4a9d-927e-60acd1e8c34a.png)
+
+3. 『Deployment method』欄の GitHub をクリックして選択する。
+
+![](https://user-images.githubusercontent.com/79512367/128297951-2590adc9-8c74-429c-93e2-83b6e2f592c0.png)
+
+4. 『Connect to GitHub』欄の 紫のボタンをクリックする。
+
+![](https://user-images.githubusercontent.com/79512367/128298135-abd6ae52-5fef-46c5-a93f-4a1f3c0a9875.png)
+
+5. GitHubから承認依頼がくるので下記の画像のように進める。
+
+![](https://user-images.githubusercontent.com/79512367/128298290-02290bef-f4d1-46df-a946-4c8f43785f7b.png)
+![](https://user-images.githubusercontent.com/79512367/128298298-563ad5c1-3076-42b1-9fc3-cbd8b0e8484e.png)
+
+6. 『Connect to GitHub』欄の Searchボタンをクリックする。
+
+![](https://user-images.githubusercontent.com/79512367/128298474-2ad9fa63-8a34-4daa-89e2-79a6d25e2537.png)
+
+7. Searchボタンを押すとGitHubにデプロイ済みのプロジェクトが出るので任意のものを選択する。
+
+![](https://user-images.githubusercontent.com/79512367/128298651-64c7862b-a350-45a9-bc0a-5c1b828cea48.png)
+
+8. 『Automatic deploys』欄の Enble Automatic Deploys の黒いボタンを選択。
+#### これで自動デプロイ設定は完了です。
+
+![](https://user-images.githubusercontent.com/79512367/128299168-a79c7512-76ac-4b5c-84ff-0a9ff93b903e.png)
+
+
+#### GitHubにコメントを一部変更してpushしてみた。
+
+1. HerokuのWebサイト画面の『Latest activity』欄 が更新中になることがわかる。
+
+![](https://user-images.githubusercontent.com/79512367/128299835-3146a60e-c3d8-434a-a083-a49fe42971fc.png)
+
+2. 完了するとこんな感じのアイコンになる。
+
+![](https://user-images.githubusercontent.com/79512367/128300211-918360fd-aeec-4138-9e5b-4ee837a15119.png)
+
+3. 実際にターミナルからHeroku内のプログラムを実行してみる。
+今日は20日じゃないです。の。→!!に変更
+
+![](https://user-images.githubusercontent.com/79512367/128300655-8cd3fe3c-666c-492e-a195-d58d60390dfb.png)
+
+
+
+    """
+)
 # ************************************************************
 
 # index_listのキーデータをリストにする。
