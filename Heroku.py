@@ -499,11 +499,12 @@ index_dict['GitHub にデプロイするとHerokuにもデプロイする設定�
 ![](https://user-images.githubusercontent.com/79512367/128300211-918360fd-aeec-4138-9e5b-4ee837a15119.png)
 
 3. 実際にターミナルからHeroku内のプログラムを実行してみる。
-今日は20日じゃないです。の。→!!に変更
+
+- 変更内容は、『今日は20日じゃないです。』の。→!!に変更
 
 ![](https://user-images.githubusercontent.com/79512367/128300655-8cd3fe3c-666c-492e-a195-d58d60390dfb.png)
 
-
+### 無事に自動デプロイの設定ができた!!
 
     """
 )
