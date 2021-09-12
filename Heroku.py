@@ -274,7 +274,7 @@ index_dict['# Heroku Webサイト内でアプリケーションの設定をし�
 
 
 # Heroku Webサイト内でアプリケーションの設定をしていく。【定期実行する設定】
-index_dict['# Heroku Webサイト内でアプリケーションの設定をしていく。【定期実行する設定】'] = (
+index_dict['Heroku Webサイト内でアプリケーションの設定をしていく。【定期実行する設定】'] = (
     """
 
 ### 参考にした記事
@@ -505,6 +505,96 @@ index_dict['GitHub にデプロイするとHerokuにもデプロイする設定�
 ![](https://user-images.githubusercontent.com/79512367/128300655-8cd3fe3c-666c-492e-a195-d58d60390dfb.png)
 
 ### 無事に自動デプロイの設定ができた!!
+
+    """
+)
+
+# Heroku内でClearDB MySQLを使えるようにする。
+index_dict['Heroku内でClearDB MySQLを使えるようにする。'] = (
+    """
+- 参考にした記事
+https://qiita.com/kenz-dev/items/8f95967601e587e14812
+- Herkouのコマンドメモ
+https://qiita.com/nao_h/items/91bcfbdd1d558bff6dc0
+
+
+1. まずは、Heroku にログインする。『ターミナル』にて！
+
+```
+heroku login
+```
+- 実行するとこんな感じになる。-> enterを押す!!
+
+![](https://user-images.githubusercontent.com/79512367/126859351-7ecfd2d8-0d8f-42c2-9c40-04a04bba20c1.png)
+
+2. ブラウザが立ち上がるので、Log Inのボタンを押す!!
+
+![](https://user-images.githubusercontent.com/79512367/126859414-0909ee9e-f3ec-48db-9992-b33ed7fd530d.png)
+
+- ログイン完了したらこんな感じになる。
+
+![](https://user-images.githubusercontent.com/79512367/126859552-618d32b9-320c-44bb-8c8a-06baa3fb0269.png)
+
+3. Herokuにデプロイしているアプリケーション名を確認する。
+```
+heroku apps
+```
+
+![](https://user-images.githubusercontent.com/79512367/129479162-419c2ec0-fdd8-452d-bf47-a5668847a8f0.png)
+
+4. Herokuのアプリケーションに ClearDB MySQL をアドオン(拡張的な意味)していく。
+```
+heroku addons:add cleardb -a <アプリケーション名>
+```
+
+![](https://user-images.githubusercontent.com/79512367/129479284-ac5f3d69-9adf-4db9-9dbe-e777984ca9e7.png)
+
+5. Herokuにデフォルトで準備されている postgresql をアドオンから外す。
+
+```
+heroku addons:destroy heroku-postgresql -a <アプリケーション名>
+```
+
+- 警告が出るので慌てないこと!!
+- アプリケーションに驚異的なダメージが・・・みたいになるけど大丈夫。
+- アプリケーション名を入力してOK!!
+
+![](https://user-images.githubusercontent.com/79512367/129479511-c495a287-dee2-4e05-8cfa-746252f8ef57.png)
+
+6. DATABASE_URLを確認する。
+
+```
+heroku config -a <アプリケーション名>
+```
+
+- ここの『mysql://〜〜〜〜〜〜reconnect=true』までをコピーする。
+
+![](https://user-images.githubusercontent.com/79512367/129479624-92b5f0bd-05f9-4ff3-ae4b-124bb62fabc0.png)
+
+6. DATABASE_URLを編集する。
+
+- mysql:// ⇨ mysql2://　に変更する。
+
+```
+heroku config:set DATABASE_URL='mysql2://〜〜<上でコピーしたの>〜〜reconnect=true' -a <アプリケーション名>
+```
+![](https://user-images.githubusercontent.com/79512367/129479885-0d1de6ff-1ea2-4f35-9d2d-382b61b7e661.png)
+
+7. Heroku に環境変数を教えていく。
+
+- 下記画像を参考にして
+
+![](https://user-images.githubusercontent.com/79512367/129480433-a5a9fdea-e052-46b6-9fe2-6a26e7da9e4a.png)
+
+- ターミナルで順に実行していく。
+
+```
+heroku config:add DB_NAME="[db_name]" -a <アプリケーション名>
+heroku config:add DB_USERNAME="[username]" -a <アプリケーション名>
+heroku config:add DB_PASSWORD="[password]" -a <アプリケーション名>
+heroku config:add DB_HOSTNAME="[hostname]" -a <アプリケーション名>
+heroku config:add DB_PORT="3306" -a <アプリケーション名>
+```
 
     """
 )

@@ -32,8 +32,8 @@ mysql.server stop
     """
 )
 
-# MySQLサーバーにログイン
-index_dict['MySQLサーバーにログイン'] = (
+# MySQLサーバーにログイン/プロジェクトの作成/ログアウト
+index_dict['MySQLサーバーにログイン/プロジェクトの作成/ログアウト'] = (
     """
 1. MySQLにログインする。
 - MySQLサーバーを起動しておく。
@@ -53,6 +53,18 @@ mysql -u root -p
 
 ![](https://user-images.githubusercontent.com/79512367/129417706-fe75c427-5193-42e8-99f9-091c6077882a.png)
 
+
+4. プロジェクトの作成
+```
+create database <プロジェクト名>;
+```
+![](https://user-images.githubusercontent.com/79512367/129420414-ca982548-6929-47e9-822b-bdf5655e852c.png)
+
+5. MySQL からログアウトする。
+```
+exit
+```
+byeと表示される!!
     """
 )
 
